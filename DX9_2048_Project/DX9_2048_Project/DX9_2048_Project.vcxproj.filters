@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Game">
+      <UniqueIdentifier>{b08a9516-e4d6-460f-a4a0-8802aa455149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\WindowClass">
+      <UniqueIdentifier>{c288bf9a-3473-4493-b35f-feb2f143887e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\DebugConsole">
+      <UniqueIdentifier>{e83d0462-5dcf-4c32-bdc8-aa025b891c45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ConsoleData">
+      <UniqueIdentifier>{d57c9192-d4c4-4818-b60d-0e1a5e121fac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\Keyboard">
+      <UniqueIdentifier>{531fc856-0776-4f8f-aecf-323a021a5d92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\SystemInfo">
+      <UniqueIdentifier>{cb9dbd58-b4bb-4749-8b2e-aa309357f2f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\SystemInfo\CPU">
+      <UniqueIdentifier>{e1a5b18f-5c1d-41df-b3a1-22971206e377}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\SystemInfo\Ram">
+      <UniqueIdentifier>{1ee63680-2b4f-467a-87c8-e7f8d38290e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\Timer">
+      <UniqueIdentifier>{edea8c2d-177a-4989-b983-72d011a013db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\FPS">
+      <UniqueIdentifier>{45ba4145-dc72-40e3-89a7-17cf46c1abb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\Mouse">
+      <UniqueIdentifier>{a0de9aac-d112-45c6-8906-72a929943e41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UpdateLog">
+      <UniqueIdentifier>{b664582d-7ccc-47be-a22c-41e1337a083f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CRT_DEBUG.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowClass.h">
+      <Filter>소스 파일\Game\WindowClass</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugConsole.h">
+      <Filter>소스 파일\Game\DebugConsole</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>소스 파일\Game\Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="cpu.h">
+      <Filter>소스 파일\Game\SystemInfo\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Ram.h">
+      <Filter>소스 파일\Game\SystemInfo\Ram</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>소스 파일\Game\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="FPS.h">
+      <Filter>소스 파일\Game\FPS</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Defines.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MainEntry.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowClass.cpp">
+      <Filter>소스 파일\Game\WindowClass</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugConsole.cpp">
+      <Filter>소스 파일\Game\DebugConsole</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>소스 파일\Game\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="CPU.cpp">
+      <Filter>소스 파일\Game\SystemInfo\CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Ram.cpp">
+      <Filter>소스 파일\Game\SystemInfo\Ram</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>소스 파일\Game\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="FPS.cpp">
+      <Filter>소스 파일\Game\FPS</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ConsoleData\CONSOLE_CHECK_DATA.txt">
+      <Filter>ConsoleData</Filter>
+    </Text>
+    <Text Include="ConsoleData\CONSOLE_TAB_DATA.txt">
+      <Filter>ConsoleData</Filter>
+    </Text>
+    <Text Include="v0.0.txt">
+      <Filter>UpdateLog</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
