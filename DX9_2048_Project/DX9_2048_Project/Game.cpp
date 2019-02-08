@@ -6,6 +6,21 @@ void Game::Render()
 {
 	device->BeginScene();
 	device->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xFFFFFFFF, 1.0f, 0);
+	UINT numPass;
+	mainShader->SetMatrix("OrthoMatrix", &orthoMatrix);
+	mainShader->SetTexture("SamplingTexture", texture["Default"]);
+	mainShader->Begin(&numPass, NULL);
+	{
+		for (UINT i = 0; i < numPass; i++)
+		{
+			mainShader->BeginPass(i);
+			{
+				
+			}
+			mainShader->EndPass();
+		}
+	}
+	mainShader->End();
 
 	DrawInfo();
 
@@ -43,11 +58,47 @@ void Game::DrawInfo()
 	MsgPrint(150, 0);
 }
 
-void Game::MsgPrint(const unsigned int x, const unsigned int y)
+void Game::MsgPrint(const unsigned int _x, const unsigned int _y)
 {
-	FontBox.top = x;
-	FontBox.left = y;
+	FontBox.top = _x;
+	FontBox.left = _y;
 	font->DrawText(NULL, str, -1, &FontBox, DT_NOCLIP, D3DCOLOR_XRGB(0, 0, 0));
+}
+
+void Game::ShaderLoad(std::string _name, LPD3DXEFFECT & _shader)
+{
+	debugConsole.SetFunction("Game::ShaderLoad");
+
+	LPD3DXBUFFER error = NULL;
+	DWORD shaderflags = 0;
+
+#if _DEBUG
+	shaderflags |= D3DXSHADER_DEBUG;
+#endif
+
+	D3DXCreateEffectFromFile(device, _name.c_str(), NULL, NULL, shaderflags, NULL, &_shader, &error);
+	if (!_shader && error)
+	{
+		char *ack = (char*)error->GetBufferPointer();
+		debugConsole << ack << con::endl;
+		getchar();
+		debugConsole << con::error << con::func << "D3DXCreateEffectFromFile() error - " << _name << con::endl;
+		//error handling
+	}
+	debugConsole.RestoreFunction();
+}
+
+void Game::TextureLoad(std::string _name, IDirect3DTexture9 * _texture)
+{
+	debugConsole.SetFunction("Game::TextureLoad");
+	if (FAILED(D3DXCreateTextureFromFile
+	(device, _name.c_str(), &_texture)))
+	{
+		debugConsole << con::error << con::func << "D3DXCreateTextureFromFile() error" << con::endl;
+		debugConsole << con::error << con::func << "path : " << _name << con::endl;
+		EndGame();
+	}
+	debugConsole.RestoreFunction();
 }
 
 void Game::EndGame()
@@ -68,6 +119,12 @@ void Game::Initialize
 	mainTimer.Initialize();
 	window.Initialize(_screenX, _screenY, _hInstance, _prevInstance, _cmdLine, _showCmd);
 	D3DXInitialize();
+
+
+	texture["Default"] = NULL;
+	TextureLoad("Data\\Default\\Texture\\defaultTexture.png", texture["Default"]);
+
+
 	avgFPS.Initialize(AVG);
 	instFPS.Initialize(INST);
 	debugConsole << con::info << con::func << "End init" << con::endl;
@@ -136,6 +193,10 @@ void Game::D3DXInitialize()
 	debugConsole << con::info << con::func << "Default font loaded" << con::endl;
 	D3DXCreateFont(device, 15, 0, FW_DONTCARE, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "system", &font);
 
+	ShaderLoad("MainShader.fx", mainShader);
+
+	D3DXMatrixOrthoRH(&orthoMatrix, window.winSize.right, window.winSize.bottom, ORTHO_NEAR, ORTHO_FAR);
+
 	debugConsole << con::info << con::func << "End init" << con::endl;
 	debugConsole.RestoreFunction();
 }
@@ -167,7 +228,13 @@ void Game::Release()
 	cpu.Release();
 	keyboard.Release();
 	window.Release();
+	for (auto ptr = texture.begin(); ptr != texture.end(); ptr++)
+	{
+		Release_<IDirect3DTexture9*>(ptr->second);
+	}
+
 	Release_<ID3DXFont*>(font);
+	Release_<LPD3DXEFFECT>(mainShader);
 	Release_<IDirect3DDevice9*>(device);
 	debugConsole.Release();
 }

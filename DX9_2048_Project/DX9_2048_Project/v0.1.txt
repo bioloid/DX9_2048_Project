@@ -1,0 +1,14 @@
+UpdateLog v0.1.0 - from bioloid
+- Function Added
+	- Texture Loader
+	- Shader Loader
+
+- Variable Added
+	- Texture Mgr - manage texture with name
+	- Main Shader
+	- Orthogonal Matrix - for shader
+
+- TODO
+	- Game Logic
+	- Game Graphic Resource
+	- Error Handler

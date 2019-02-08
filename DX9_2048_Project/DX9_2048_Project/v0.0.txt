@@ -1,5 +1,5 @@
-UpdateLog v0.0.1 - from bioloid
-- 기초적인 클래스 추가
+UpdateLog v0.0.0 - from bioloid
+- 클래스 추가
 	- Game
 	- WindowClass
 	- DebugConsole

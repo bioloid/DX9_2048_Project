@@ -49,6 +49,12 @@
     <Filter Include="UpdateLog">
       <UniqueIdentifier>{b664582d-7ccc-47be-a22c-41e1337a083f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{fb65bb4c-c177-48a6-8819-9e328070f8e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Texture">
+      <UniqueIdentifier>{7b4c6da2-a796-4865-bb51-0d06fad6eb61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRT_DEBUG.h">
@@ -127,5 +133,13 @@
     <Text Include="v0.0.txt">
       <Filter>UpdateLog</Filter>
     </Text>
+    <Text Include="v0.1.txt">
+      <Filter>UpdateLog</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="MainShader.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

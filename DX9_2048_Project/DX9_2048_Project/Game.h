@@ -14,6 +14,10 @@
 
 #define MSGPRINTMAXSIZE 128
 
+//	C++ Includes
+//
+#include <map>
+#include <string>
 
 //	DirectX Includes
 //
@@ -49,7 +53,10 @@ private:
 //
 	IDirect3DDevice9*	device = NULL;
 	ID3DXFont*			font = NULL;
-	unsigned int	mrt;
+	LPD3DXEFFECT		mainShader = NULL;
+	unsigned int		mrt;	//multi rendering texture Count
+	std::map<std::string, IDirect3DTexture9*> texture;
+	D3DXMATRIXA16		orthoMatrix;
 
 //	Msg Print
 //
@@ -75,7 +82,9 @@ private:
 	void D3DXInitialize();
 	void Render();
 	void DrawInfo();
-	void MsgPrint(const unsigned int x, const unsigned int y);
+	void MsgPrint(const unsigned int _x, const unsigned int _y);
+	void ShaderLoad(std::string _name, LPD3DXEFFECT& _shader);
+	void TextureLoad(std::string _name, IDirect3DTexture9* _texture);
 public:
 	Game();
 	~Game();

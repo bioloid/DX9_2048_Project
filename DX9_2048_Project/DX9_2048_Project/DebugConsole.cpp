@@ -372,11 +372,7 @@ void DebugConsole::Initialize(int _screenX, int _screenY)
 void DebugConsole::Release()
 {
 	if (game.bConUsage == true)
-	{
-		SetFunction("DebugConsole::Release");
-		*this << con::info << con::func << "End DebugConsole" << con::endl;
 		FreeConsole();
-	}
 }
 
 void DebugConsole::SetFunction(string _function)
