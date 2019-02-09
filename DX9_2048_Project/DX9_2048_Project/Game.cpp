@@ -5,7 +5,7 @@
 void Game::Render()
 {
 	device->BeginScene();
-	device->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xFFFFFFFF, 1.0f, 0);
+	device->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, SCREEN_BASE_COLOR, 1.0f, 0);
 	UINT numPass;
 	mainShader->SetMatrix("OrthoMatrix", &orthoMatrix);
 	mainShader->SetTexture("SamplingTexture", texture["Default"]);

@@ -55,6 +55,15 @@
     <Filter Include="Texture">
       <UniqueIdentifier>{7b4c6da2-a796-4865-bb51-0d06fad6eb61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Screen">
+      <UniqueIdentifier>{70cbd30c-3445-4325-8626-334e204272cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Screen\Game">
+      <UniqueIdentifier>{4a6a02cd-3edd-46e5-931d-4b46861e416b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Image">
+      <UniqueIdentifier>{2ae2e5bf-fda0-4ab6-885c-06fc56d39c1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRT_DEBUG.h">
@@ -141,5 +150,10 @@
     <FxCompile Include="MainShader.fx">
       <Filter>Shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Data\Image\main_screen.jpg">
+      <Filter>Image</Filter>
+    </Image>
   </ItemGroup>
 </Project>
