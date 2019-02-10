@@ -167,5 +167,38 @@
     <Image Include="Data\Default\Texture\defaultTexture.png">
       <Filter>Image</Filter>
     </Image>
+    <Image Include="Data\Image\64.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Image\128.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Image\256.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Image\512.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Image\1024.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Image\2048.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Image\2.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Image\4.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Image\8.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Image\16.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Image\32.jpg">
+      <Filter>Image</Filter>
+    </Image>
   </ItemGroup>
 </Project>

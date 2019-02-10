@@ -63,6 +63,17 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Data\Default\Texture\defaultTexture.png" />
+    <Image Include="Data\Image\1024.jpg" />
+    <Image Include="Data\Image\128.jpg" />
+    <Image Include="Data\Image\16.jpg" />
+    <Image Include="Data\Image\2.jpg" />
+    <Image Include="Data\Image\2048.jpg" />
+    <Image Include="Data\Image\256.jpg" />
+    <Image Include="Data\Image\32.jpg" />
+    <Image Include="Data\Image\4.jpg" />
+    <Image Include="Data\Image\512.jpg" />
+    <Image Include="Data\Image\64.jpg" />
+    <Image Include="Data\Image\8.jpg" />
     <Image Include="Data\Image\main_screen.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
