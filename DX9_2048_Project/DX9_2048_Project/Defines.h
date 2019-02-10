@@ -13,6 +13,9 @@
 
 #define SCREEN_BASE_COLOR 0xFFFBF8EF // alpha 251 248 239 (RGB)
 #define SCREEN_WORD_COLOR 0xFF7C756D // alpha 124 117 109 (RGB)
+
+
+
 //	Safe Release
 //
 template<class T> void Release_(T t)

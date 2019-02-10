@@ -4,6 +4,8 @@
 #pragma warning(disable:4477)
 #pragma warning(disable:4244)
 
+RECT tilePosition[4][4];
+
 void Game::Render()
 {
 	device->BeginScene();
@@ -18,6 +20,13 @@ void Game::Render()
 			mainShader->BeginPass(i);
 			{
 				testObject.Draw(mainShader);
+				for (int i = 0; i < 4; i++)
+				{
+					for (int j = 0; j < 4; j++)
+					{
+						testTile[i][j].Draw(mainShader);
+					}
+				}
 			}
 			mainShader->EndPass();
 		}
@@ -30,84 +39,6 @@ void Game::Render()
 	device->Present(0, 0, 0, 0);
 }
 
-void Game::DrawInfo()
-{
-	avgFPS.Count();
-	memory.Update();
-	cpu.Update();
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("RUN time : %.03lf"), mainTimer.getTime());
-	MsgPrint(0, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("AVG FPS : %4.03lf"), avgFPS.Get());
-	MsgPrint(15, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Fram Count : %u"), avgFPS.GetCount());
-	MsgPrint(30, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Total Virtual RAM : %dMB"), memory.GetTotalVirtualMEM() / (1024 * 1024));
-	MsgPrint(45, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Used Virtual RAM : %dMB"), memory.GetUsedVirtualMEM() / (1024 * 1024));
-	MsgPrint(60, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Total RAM : %dMB"), memory.GetTotalMEM() / (1024 * 1024));
-	MsgPrint(75, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Used RAM : %dMB"), memory.GetUsedMEM() / (1024 * 1024));
-	MsgPrint(90, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Proc RAM : %.03fMB"), (float)memory.GetProcUsedMEM() / (1024 * 1024));
-	MsgPrint(105, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Proc Virtual RAM : %.03fMB"), (float)memory.GetProcUsedVirtualMEM() / (1024 * 1024));
-	MsgPrint(120, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Total CPU : %d%%"), cpu.GetCpuUsage());
-	MsgPrint(135, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Proc CPU : %.1lf%%"), cpu.GetProcessUsage());
-	MsgPrint(150, 0);
-}
-
-void Game::MsgPrint(const unsigned int _x, const unsigned int _y)
-{
-	FontBox.top = _x;
-	FontBox.left = _y;
-	font->DrawText(NULL, str, -1, &FontBox, DT_NOCLIP, D3DCOLOR_XRGB(0, 0, 0));
-}
-
-void Game::ShaderLoad(std::string _name, LPD3DXEFFECT & _shader)
-{
-	debugConsole.SetFunction("Game::ShaderLoad");
-
-	LPD3DXBUFFER error = NULL;
-	DWORD shaderflags = 0;
-
-#if _DEBUG
-	shaderflags |= D3DXSHADER_DEBUG;
-#endif
-
-	D3DXCreateEffectFromFile(device, _name.c_str(), NULL, NULL, shaderflags, NULL, &_shader, &error);
-	if (!_shader && error)
-	{
-		char *ack = (char*)error->GetBufferPointer();
-		debugConsole << ack << con::endl;
-		getchar();
-		debugConsole << con::error << con::func << "D3DXCreateEffectFromFile() error - " << _name << con::endl;
-		//error handling
-	}
-	debugConsole.RestoreFunction();
-}
-
-void Game::TextureLoad(std::string _filename, std::string _filepath)
-{
-	debugConsole.SetFunction("Game::TextureLoad");
-	texture[_filename] = NULL;
-	if (FAILED(D3DXCreateTextureFromFile
-	(device, _filepath.c_str(), &texture[_filename])))
-	{
-		debugConsole << con::error << con::func << "D3DXCreateTextureFromFile() error" << con::endl;
-		debugConsole << con::error << con::func << "path : " << _filepath << con::endl;
-		EndGame();
-	}
-	debugConsole.RestoreFunction();
-}
-
-void Game::EndGame()
-{
-	debugConsole << con::endl;
-	bRunGame = false;
-}
 
 void Game::Initialize
 (int _screenX, int _screenY, HINSTANCE _hInstance, HINSTANCE _prevInstance, LPSTR _cmdLine, int _showCmd)
@@ -121,9 +52,101 @@ void Game::Initialize
 	mainTimer.Initialize();
 	window.Initialize(_screenX, _screenY, _hInstance, _prevInstance, _cmdLine, _showCmd);
 	D3DXInitialize();
-	testObject.Initialize("main_screen", "Data\\Image\\main_screen.jpg", WINDOWSIZE_Y / 2, -WINDOWSIZE_Y / 2, WINDOWSIZE_X / 2, -WINDOWSIZE_X / 2);
+
+
+
+	{
+		tilePosition[0][0].bottom = 83;		tilePosition[0][0].top = 225;
+		tilePosition[0][0].right = -174;	tilePosition[0][0].left = -318;
+
+		tilePosition[1][0].bottom = -80;	tilePosition[1][0].top = 62;
+		tilePosition[1][0].right = -174;	tilePosition[1][0].left = -318;
+
+		tilePosition[2][0].bottom = -243;	tilePosition[2][0].top = -101;
+		tilePosition[2][0].right = -174;	tilePosition[2][0].left = -318;
+
+		tilePosition[3][0].bottom = -406;	tilePosition[3][0].top = -264;
+		tilePosition[3][0].right = -174;	tilePosition[3][0].left = -318;
+
+		tilePosition[0][1].bottom = 83;		tilePosition[0][1].top = 225;
+		tilePosition[0][1].right = -11;	tilePosition[0][1].left = -155;
+
+		tilePosition[1][1].bottom = -80;	tilePosition[1][1].top = 62;
+		tilePosition[1][1].right = -11;	tilePosition[1][1].left = -155;
+
+		tilePosition[2][1].bottom = -243;	tilePosition[2][1].top = -101;
+		tilePosition[2][1].right = -11;	tilePosition[2][1].left = -155;
+
+		tilePosition[3][1].bottom = -406;	tilePosition[3][1].top = -264;
+		tilePosition[3][1].right = -11;	tilePosition[3][1].left = -155;
+
+		tilePosition[0][2].bottom = 83;		tilePosition[0][2].top = 225;
+		tilePosition[0][2].right = 152;	tilePosition[0][2].left = 8;
+
+		tilePosition[1][2].bottom = -80;	tilePosition[1][2].top = 62;
+		tilePosition[1][2].right = 152;	tilePosition[1][2].left = 8;
+
+		tilePosition[2][2].bottom = -243;	tilePosition[2][2].top = -101;
+		tilePosition[2][2].right = 152;	tilePosition[2][2].left = 8;
+
+		tilePosition[3][2].bottom = -406;	tilePosition[3][2].top = -264;
+		tilePosition[3][2].right = 152;	tilePosition[3][2].left = 8;
+
+		tilePosition[0][3].bottom = 83;		tilePosition[0][3].top = 225;
+		tilePosition[0][3].right = 315;	tilePosition[0][3].left = 171;
+
+		tilePosition[1][3].bottom = -80;	tilePosition[1][3].top = 62;
+		tilePosition[1][3].right = 315;	tilePosition[1][3].left = 171;
+
+		tilePosition[2][3].bottom = -243;	tilePosition[2][3].top = -101;
+		tilePosition[2][3].right = 315;	tilePosition[2][3].left = 171;
+
+		tilePosition[3][3].bottom = -406;	tilePosition[3][3].top = -264;
+		tilePosition[3][3].right = 315;	tilePosition[3][3].left = 171;
+	}
 	
-	TextureLoad("Default", "Data\\Default\\Texture\\defaultTexture.png");
+
+	TextureLoad("main_screen", "Data\\Image\\main_screen.jpg");
+	TextureLoad("2", "Data\\Image\\2.jpg");
+	TextureLoad("4", "Data\\Image\\4.jpg");
+	TextureLoad("8", "Data\\Image\\8.jpg");
+	TextureLoad("16", "Data\\Image\\16.jpg");
+	TextureLoad("32", "Data\\Image\\32.jpg");
+	TextureLoad("64", "Data\\Image\\64.jpg");
+	TextureLoad("128", "Data\\Image\\128.jpg");
+	TextureLoad("256", "Data\\Image\\256.jpg");
+	TextureLoad("512", "Data\\Image\\512.jpg");
+	TextureLoad("1024", "Data\\Image\\1024.jpg");
+	TextureLoad("2048", "Data\\Image\\2048.jpg");
+
+	testObject.Initialize("main_screen", WINDOWSIZE_Y / 2, -WINDOWSIZE_Y / 2, WINDOWSIZE_X / 2, -WINDOWSIZE_X / 2);
+
+	testTile[0][0].Initialize("2", tilePosition[0][0]);
+	testTile[1][0].Initialize("4", tilePosition[1][0]);
+	testTile[2][0].Initialize("8", tilePosition[2][0]);
+	testTile[3][0].Initialize("16", tilePosition[3][0]);
+
+	testTile[0][1].Initialize("32", tilePosition[0][1]);
+	testTile[1][1].Initialize("64", tilePosition[1][1]);
+	testTile[2][1].Initialize("128", tilePosition[2][1]);
+	testTile[3][1].Initialize("256", tilePosition[3][1]);
+
+	testTile[0][2].Initialize("512", tilePosition[0][2]);
+	testTile[1][2].Initialize("1024", tilePosition[1][2]);
+	testTile[2][2].Initialize("2048", tilePosition[2][2]);
+	testTile[3][2].Initialize("2", tilePosition[3][2]);
+
+	testTile[0][3].Initialize("2", tilePosition[0][3]);
+	testTile[1][3].Initialize("4", tilePosition[1][3]);
+	testTile[2][3].Initialize("8", tilePosition[2][3]);
+	testTile[3][3].Initialize("16", tilePosition[3][3]);
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+			boardData[i][j] = 0;
+	}
+
 
 	avgFPS.Initialize(AVG);
 	debugConsole << con::info << con::func << "End init" << con::endl;
@@ -230,6 +253,15 @@ void Game::Release()
 	{
 		Release_<IDirect3DTexture9*>(ptr->second);
 	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			testTile[i][j].Release();
+		}
+	}
+
 	testObject.Release();
 	Release_<ID3DXFont*>(font);
 	Release_<LPD3DXEFFECT>(mainShader);
@@ -292,6 +324,84 @@ LRESULT Game::MessageHandler
 	return DefWindowProc(_hwnd, _msg, _wParam, _lParam);
 }
 
+void Game::DrawInfo()
+{
+	avgFPS.Count();
+	memory.Update();
+	cpu.Update();
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("RUN time : %.03lf"), mainTimer.getTime());
+	MsgPrint(0, 0);
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("AVG FPS : %4.03lf"), avgFPS.Get());
+	MsgPrint(15, 0);
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Fram Count : %u"), avgFPS.GetCount());
+	MsgPrint(30, 0);
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Total Virtual RAM : %dMB"), memory.GetTotalVirtualMEM() / (1024 * 1024));
+	MsgPrint(45, 0);
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Used Virtual RAM : %dMB"), memory.GetUsedVirtualMEM() / (1024 * 1024));
+	MsgPrint(60, 0);
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Total RAM : %dMB"), memory.GetTotalMEM() / (1024 * 1024));
+	MsgPrint(75, 0);
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Used RAM : %dMB"), memory.GetUsedMEM() / (1024 * 1024));
+	MsgPrint(90, 0);
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Proc RAM : %.03fMB"), (float)memory.GetProcUsedMEM() / (1024 * 1024));
+	MsgPrint(105, 0);
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Proc Virtual RAM : %.03fMB"), (float)memory.GetProcUsedVirtualMEM() / (1024 * 1024));
+	MsgPrint(120, 0);
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Total CPU : %d%%"), cpu.GetCpuUsage());
+	MsgPrint(135, 0);
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Proc CPU : %.1lf%%"), cpu.GetProcessUsage());
+	MsgPrint(150, 0);
+}
+
+void Game::MsgPrint(const unsigned int _x, const unsigned int _y)
+{
+	FontBox.top = _x;
+	FontBox.left = _y;
+	font->DrawText(NULL, str, -1, &FontBox, DT_NOCLIP, D3DCOLOR_XRGB(0, 0, 0));
+}
+
+void Game::ShaderLoad(std::string _name, LPD3DXEFFECT & _shader)
+{
+	debugConsole.SetFunction("Game::ShaderLoad");
+
+	LPD3DXBUFFER error = NULL;
+	DWORD shaderflags = 0;
+
+#if _DEBUG
+	shaderflags |= D3DXSHADER_DEBUG;
+#endif
+
+	D3DXCreateEffectFromFile(device, _name.c_str(), NULL, NULL, shaderflags, NULL, &_shader, &error);
+	if (!_shader && error)
+	{
+		char *ack = (char*)error->GetBufferPointer();
+		debugConsole << ack << con::endl;
+		getchar();
+		debugConsole << con::error << con::func << "D3DXCreateEffectFromFile() error - " << _name << con::endl;
+		//error handling
+	}
+	debugConsole.RestoreFunction();
+}
+
+void Game::TextureLoad(std::string _filename, std::string _filepath)
+{
+	debugConsole.SetFunction("Game::TextureLoad");
+	texture[_filename] = NULL;
+	if (FAILED(D3DXCreateTextureFromFile
+	(device, _filepath.c_str(), &texture[_filename])))
+	{
+		debugConsole << con::error << con::func << "D3DXCreateTextureFromFile() error" << con::endl;
+		debugConsole << con::error << con::func << "path : " << _filepath << con::endl;
+		EndGame();
+	}
+	debugConsole.RestoreFunction();
+}
+
+void Game::EndGame()
+{
+	debugConsole << con::endl;
+	bRunGame = false;
+}
 
 
 

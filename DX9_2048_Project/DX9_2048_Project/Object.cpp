@@ -3,17 +3,19 @@
 #include <iostream>
 
 void Object::Initialize
-(std::string _filename, std::string _filepath, 
+(std::string _filename, 
 int _top, int _bottom, int _right, int _left) // 450 -450 800 -800
 {
 	game.debugConsole.SetFunction("Object::Initialize");
 	textureName = _filename;
-	game.TextureLoad(_filename, _filepath);
-
-
 	D3DXMatrixIdentity(&worldMatrix);
 	worldMatrix._41 = (_right + _left) / 2.0f;
-	worldMatrix._42 = (_top + _bottom) / 2.0f;
+	worldMatrix._42 = (_top + _bottom) / 2.0f; 
+	
+//	std::cout << _top << " " << _bottom << " " << _right << " " << _left << std::endl;
+//	std::cout << worldMatrix._41 << " " << worldMatrix._42 << std::endl;
+//	std::cout << "texture : " << game.texture[textureName] << std::endl;
+
 
 
 
@@ -26,6 +28,7 @@ int _top, int _bottom, int _right, int _left) // 450 -450 800 -800
 	sizeX = _right - _left;
 	sizeY = _top - _bottom;
 
+//	std::cout << -sizeX / 2.0f << " " << sizeY / 2.0f << " " << sizeX / 2.0f << " " << -sizeY / 2.0f << std::endl;
 	VB->Lock(0, 0, (void**)&data_, 0);
 	data_[0] = Object::VertexXYZTEX(-sizeX / 2.0f,  sizeY / 2.0f, 0.0f, 0.0f, 0.0f);
 	data_[1] = Object::VertexXYZTEX( sizeX / 2.0f,  sizeY / 2.0f, 0.0f, 1.0f, 0.0f);
@@ -37,6 +40,11 @@ int _top, int _bottom, int _right, int _left) // 450 -450 800 -800
 	VB->Unlock();
 
 	game.debugConsole.RestoreFunction();
+}
+
+void Object::Initialize(std::string _filename, RECT& _position)
+{
+	Initialize(_filename, _position.top, _position.bottom, _position.right, _position.left);
 }
 
 void Object::Release()

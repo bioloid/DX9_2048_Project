@@ -12,7 +12,9 @@ private:
 	int sizeX, sizeY;
 
 public:
-	void Initialize(std::string _filename, std::string _filepath, int _top, int _bottom, int _right, int _left);
+	void Initialize(std::string _filename, int _top, int _bottom, int _right, int _left);
+	void Initialize(std::string _filename, RECT& _position);
+
 	void Release();
 	void Draw(LPD3DXEFFECT& shader);
 	RECT GetPosition();

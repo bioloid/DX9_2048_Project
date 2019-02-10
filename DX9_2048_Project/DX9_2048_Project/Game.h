@@ -50,6 +50,7 @@ private:
 	FPS				avgFPS;
 	Mouse			mouse;
 	Object			testObject;
+	Object			testTile[4][4];
 //	DirectX
 //
 	IDirect3DDevice9*	device = NULL;
@@ -63,6 +64,8 @@ private:
 //
 	char				str[MSGPRINTMAXSIZE];
 	RECT				FontBox;
+
+	unsigned int		boardData[4][4];
 
 public:
 	bool				bRunGame = true;
@@ -86,6 +89,11 @@ private:
 	void MsgPrint(const unsigned int _x, const unsigned int _y);
 	void ShaderLoad(std::string _name, LPD3DXEFFECT& _shader);
 	void TextureLoad(std::string _filename, std::string _filepath);
+	void MoveTile(unsigned int _input);
+	bool GameOver();
+	void SameTile();
+	void NewTile();
+
 public:
 	Game();
 	~Game();

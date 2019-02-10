@@ -33,6 +33,7 @@ VOutput mainVertex(VInput Input)
 }
 float4 mainPixel(PInput Input) : COLOR
 {
+//    return float4(1, 1, 0, 1);
     return tex2D(MainSampler, Input.UV);
 }
 
