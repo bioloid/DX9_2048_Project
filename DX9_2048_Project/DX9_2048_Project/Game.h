@@ -89,10 +89,14 @@ private:
 	void MsgPrint(const unsigned int _x, const unsigned int _y);
 	void ShaderLoad(std::string _name, LPD3DXEFFECT& _shader);
 	void TextureLoad(std::string _filename, std::string _filepath);
+
+//	TODO Functions
 	void MoveTile(unsigned int _input);
 	bool GameOver();
 	void SameTile();
 	void NewTile();
+	void GetScore();
+	void NewGame();
 
 public:
 	Game();
