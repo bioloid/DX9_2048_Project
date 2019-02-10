@@ -27,6 +27,7 @@
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Ram.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="WindowClass.h" />
@@ -39,6 +40,7 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="MainEntry.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="Ram.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="WindowClass.cpp" />
@@ -60,6 +62,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Data\Default\Texture\defaultTexture.png" />
     <Image Include="Data\Image\main_screen.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

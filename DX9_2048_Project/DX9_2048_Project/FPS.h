@@ -18,6 +18,7 @@ public:
 	void Reset();
 	void Count();
 	float Get();
+	unsigned int GetCount();
 };
 
 #endif

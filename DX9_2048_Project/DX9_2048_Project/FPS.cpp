@@ -50,3 +50,8 @@ float FPS::Get()
 {
 	return frameCount / (time.getTime() + 0.001f);
 }
+
+unsigned int FPS::GetCount()
+{
+	return frameCount;
+}

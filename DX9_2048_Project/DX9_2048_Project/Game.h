@@ -34,7 +34,7 @@
 #include "Timer.h"
 #include "FPS.h"
 #include "Mouse.h"
-
+#include "Object.h"
 class Game
 {
 private:
@@ -47,8 +47,9 @@ private:
 	Ram				memory;
 	CPU				cpu;
 	Timer			mainTimer;
-	FPS				avgFPS, instFPS;
+	FPS				avgFPS;
 	Mouse			mouse;
+	Object			testObject;
 //	DirectX
 //
 	IDirect3DDevice9*	device = NULL;
@@ -84,7 +85,7 @@ private:
 	void DrawInfo();
 	void MsgPrint(const unsigned int _x, const unsigned int _y);
 	void ShaderLoad(std::string _name, LPD3DXEFFECT& _shader);
-	void TextureLoad(std::string _name, IDirect3DTexture9* _texture);
+	void TextureLoad(std::string _filename, std::string _filepath);
 public:
 	Game();
 	~Game();
@@ -96,7 +97,7 @@ public:
 	friend void Timer::Initialize();
 	friend void FPS::Initialize(bool _mode);
 	friend void Mouse::Initialize();
-
+	friend class Object;
 };
 
 #endif

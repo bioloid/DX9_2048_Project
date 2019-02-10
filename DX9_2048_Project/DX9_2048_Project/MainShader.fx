@@ -16,6 +16,7 @@ struct PInput
 };
 
 float4x4 OrthoMatrix;
+float4x4 WorldMatrix;
 texture SamplingTexture;
 sampler2D MainSampler = sampler_state
 {
@@ -24,13 +25,14 @@ sampler2D MainSampler = sampler_state
 VOutput mainVertex(VInput Input)
 {
     VOutput Output;
-    Output.Position = mul(Input.Position, OrthoMatrix);
+    Output.Position = mul(Input.Position, WorldMatrix);
+    Output.Position = mul(Output.Position, OrthoMatrix);
+
     Output.UV = Input.UV;
     return Output;
 }
 float4 mainPixel(PInput Input) : COLOR
 {
-    return float4(1, 0, 0, 1);
     return tex2D(MainSampler, Input.UV);
 }
 

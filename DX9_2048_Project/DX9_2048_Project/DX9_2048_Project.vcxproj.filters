@@ -64,6 +64,9 @@
     <Filter Include="Image">
       <UniqueIdentifier>{2ae2e5bf-fda0-4ab6-885c-06fc56d39c1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\Object">
+      <UniqueIdentifier>{124171e5-31ea-4040-b0a7-147c0be108e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRT_DEBUG.h">
@@ -93,10 +96,13 @@
     <ClInclude Include="FPS.h">
       <Filter>소스 파일\Game\FPS</Filter>
     </ClInclude>
-    <ClInclude Include="Mouse.h">
+    <ClInclude Include="Defines.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Defines.h">
+    <ClInclude Include="Mouse.h">
+      <Filter>소스 파일\Game\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -129,6 +135,9 @@
       <Filter>소스 파일\Game\FPS</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
+      <Filter>소스 파일\Game\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -153,6 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Data\Image\main_screen.jpg">
+      <Filter>Image</Filter>
+    </Image>
+    <Image Include="Data\Default\Texture\defaultTexture.png">
       <Filter>Image</Filter>
     </Image>
   </ItemGroup>

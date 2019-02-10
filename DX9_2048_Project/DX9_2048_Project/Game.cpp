@@ -1,21 +1,23 @@
 #include "Game.h"
 #include "Defines.h"
+#include <iostream>
 #pragma warning(disable:4477)
+#pragma warning(disable:4244)
 
 void Game::Render()
 {
 	device->BeginScene();
-	device->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, SCREEN_BASE_COLOR, 1.0f, 0);
+	device->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xFFFFFFFF, 1.0f, 0);
 	UINT numPass;
+
 	mainShader->SetMatrix("OrthoMatrix", &orthoMatrix);
-	mainShader->SetTexture("SamplingTexture", texture["Default"]);
 	mainShader->Begin(&numPass, NULL);
 	{
 		for (UINT i = 0; i < numPass; i++)
 		{
 			mainShader->BeginPass(i);
 			{
-				
+				testObject.Draw(mainShader);
 			}
 			mainShader->EndPass();
 		}
@@ -31,14 +33,13 @@ void Game::Render()
 void Game::DrawInfo()
 {
 	avgFPS.Count();
-	instFPS.Count();
 	memory.Update();
 	cpu.Update();
 	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("RUN time : %.03lf"), mainTimer.getTime());
 	MsgPrint(0, 0);
 	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("AVG FPS : %4.03lf"), avgFPS.Get());
 	MsgPrint(15, 0);
-	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("INST FPS : %4.03lf"), instFPS.Get());
+	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Fram Count : %u"), avgFPS.GetCount());
 	MsgPrint(30, 0);
 	sprintf_s(str, sizeof(str) / sizeof(char), TEXT("Total Virtual RAM : %dMB"), memory.GetTotalVirtualMEM() / (1024 * 1024));
 	MsgPrint(45, 0);
@@ -88,14 +89,15 @@ void Game::ShaderLoad(std::string _name, LPD3DXEFFECT & _shader)
 	debugConsole.RestoreFunction();
 }
 
-void Game::TextureLoad(std::string _name, IDirect3DTexture9 * _texture)
+void Game::TextureLoad(std::string _filename, std::string _filepath)
 {
 	debugConsole.SetFunction("Game::TextureLoad");
+	texture[_filename] = NULL;
 	if (FAILED(D3DXCreateTextureFromFile
-	(device, _name.c_str(), &_texture)))
+	(device, _filepath.c_str(), &texture[_filename])))
 	{
 		debugConsole << con::error << con::func << "D3DXCreateTextureFromFile() error" << con::endl;
-		debugConsole << con::error << con::func << "path : " << _name << con::endl;
+		debugConsole << con::error << con::func << "path : " << _filepath << con::endl;
 		EndGame();
 	}
 	debugConsole.RestoreFunction();
@@ -119,14 +121,11 @@ void Game::Initialize
 	mainTimer.Initialize();
 	window.Initialize(_screenX, _screenY, _hInstance, _prevInstance, _cmdLine, _showCmd);
 	D3DXInitialize();
-
-
-	texture["Default"] = NULL;
-	TextureLoad("Data\\Default\\Texture\\defaultTexture.png", texture["Default"]);
-
+	testObject.Initialize("main_screen", "Data\\Image\\main_screen.jpg", WINDOWSIZE_Y / 2, -WINDOWSIZE_Y / 2, WINDOWSIZE_X / 2, -WINDOWSIZE_X / 2);
+	
+	TextureLoad("Default", "Data\\Default\\Texture\\defaultTexture.png");
 
 	avgFPS.Initialize(AVG);
-	instFPS.Initialize(INST);
 	debugConsole << con::info << con::func << "End init" << con::endl;
 	debugConsole.RestoreFunction();
 	debugConsole << ">> ";
@@ -203,16 +202,16 @@ void Game::D3DXInitialize()
 
 void Game::RunGame()
 {
-	while (bRunGame) {
-		if (PeekMessage(&window.msg, 0, 0, 0, PM_REMOVE)) {
-			TranslateMessage(&window.msg);
-			DispatchMessage(&window.msg);
-		}
-		else {
-			debugConsole.Input();
-			keyboard.KeyEvent();
-			Render();
-		}
+//		if (PeekMessage(&window.msg, 0, 0, 0, PM_REMOVE)) 
+
+	while (GetMessage(&window.msg, 0, 0, 0) && bRunGame) 
+	{
+		TranslateMessage(&window.msg);
+		DispatchMessage(&window.msg);
+
+		debugConsole.Input();
+		keyboard.KeyEvent();
+		Render();
 	}
 }
 
@@ -222,7 +221,6 @@ void Game::Release()
 	debugConsole << con::info << con::func << "End Game" << con::endl;
 	mouse.Release();
 	avgFPS.Release();
-	instFPS.Release();
 	mainTimer.Release();
 	memory.Release();
 	cpu.Release();
@@ -232,7 +230,7 @@ void Game::Release()
 	{
 		Release_<IDirect3DTexture9*>(ptr->second);
 	}
-
+	testObject.Release();
 	Release_<ID3DXFont*>(font);
 	Release_<LPD3DXEFFECT>(mainShader);
 	Release_<IDirect3DDevice9*>(device);
