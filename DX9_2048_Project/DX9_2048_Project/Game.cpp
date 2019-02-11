@@ -631,6 +631,7 @@ void Game::MoveTile(unsigned int _input)
 
 	Render();
 	GameOver();
+	std::cout << "gameover out\n";
 	if (checkMoved)
 	{
 		Sleep(100);
@@ -657,6 +658,7 @@ void Game::MoveTile(unsigned int _input)
 
 bool Game::GameOver()
 {
+	std::cout << "gameover func in";
 	for (int i = 0; i < 4; i++) // win game
 	{
 		for (int j = 0; j < 4; j++)
@@ -672,7 +674,54 @@ bool Game::GameOver()
 		}
 	}
 	// lose game
-
+	int count = 0;
+	bool something_to_merge = false;
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			if (boardData[i][j])
+				count++;
+		}
+	}
+	std::cout << " count : " << count << '\n';
+	if (count == 16)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				if (boardData[i][j]->GetScore() == boardData[i + 1][j]->GetScore())
+				{
+					something_to_merge = true;
+					std::cout << i << " " << j << " 1\n";
+					break;
+				}
+			}
+			if (something_to_merge)
+				break;
+		}
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				if (boardData[i][j]->GetScore() == boardData[i][j + 1]->GetScore())
+				{
+					something_to_merge = true;
+					std::cout << i << " " << j << " 2\n";
+					break;
+				}
+			}
+			if (something_to_merge)
+				break;
+		}
+		if (!something_to_merge)
+		{
+			bLoseGame = true;
+			return true;
+		}
+	}
+	
 	return false;
 }
 
