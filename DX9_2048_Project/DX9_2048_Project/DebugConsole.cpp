@@ -245,13 +245,10 @@ void DebugConsole::Check()
 void DebugConsole::Initialize(int _screenX, int _screenY)
 {
 	SetFunction("DebugConsole::Initialize");
-
-	conSize.right = _screenX;	conSize.left = 0;
-	conSize.bottom = _screenY;	conSize.top = 0;
-	
-
 	if (game.bConUsage == true)
 	{
+		conSize.right = _screenX;	conSize.left = 0;
+		conSize.bottom = _screenY;	conSize.top = 0;
 		AllocConsole();
 		SetConsoleTitle("Debug Console");
 		consoleHND = GetForegroundWindow();
@@ -264,108 +261,109 @@ void DebugConsole::Initialize(int _screenX, int _screenY)
 		{
 			game.bConUsage = false;
 		}
-	}
-	*this << con::info << con::func << "console started" << con::endl;
 
-	//	Read console tab data txt file
-	//
-	std::ifstream file;
-	string tmpPath;
-	char input;
-	string fileReadData;
+		*this << con::info << con::func << "console started" << con::endl;
 
-	tmpPath = defaultPath;
-	tmpPath += "CONSOLE_TAB_DATA.txt";
-	file.open(tmpPath);
+		//	Read console tab data txt file
+		//
+		std::ifstream file;
+		string tmpPath;
+		char input;
+		string fileReadData;
 
-	if (file.fail())
-	{
-		file.clear();
-		file.close();
-		*this << con::error << con::func << "CONSOLE_TAB_DATA.txt open() - failed" << con::endl;
-		*this << con::error << con::func << "console tab function disabled" << con::endl;
-	}
+		tmpPath = defaultPath;
+		tmpPath += "CONSOLE_TAB_DATA.txt";
+		file.open(tmpPath);
 
-	else
-	{
-		while (!file.eof())
+		if (file.fail())
 		{
-			file >> fileReadData;
-			tabData.push_back(fileReadData);
+			file.clear();
+			file.close();
+			*this << con::error << con::func << "CONSOLE_TAB_DATA.txt open() - failed" << con::endl;
+			*this << con::error << con::func << "console tab function disabled" << con::endl;
 		}
-		file.clear();
-		file.close();
-		*this << con::info << con::func << "tab data load - succeed" << con::endl;
-	}
 
-
-
-	//	Read console check data txt file
-	//
-	file.open(defaultPath + "CONSOLE_CHECK_DATA.txt");
-	if (file.fail())
-	{
-		file.clear();
-		file.close();
-		*this << con::error << con::func << "CONSOLE_CHECK_DATA open() - failed" << con::endl;
-		*this << con::error << con::func << "console is now disabled" << con::endl;
-		game.bConUsage = false;
-		DestroyWindow(consoleHND);
-	}
-
-	else
-	{
-		int num;
-		list<string>		tmp_list;
-		string				fileReadData_;
-		map<string, list<string>> tmp_map;
-		while (!file.eof())
+		else
 		{
-			file.get(input);
-			if (input == ':')
+			while (!file.eof())
 			{
-				file >> num;
 				file >> fileReadData;
-				file.get();
-				for (int i = 0; i < num; i++)
+				tabData.push_back(fileReadData);
+			}
+			file.clear();
+			file.close();
+			*this << con::info << con::func << "tab data load - succeed" << con::endl;
+		}
+
+
+
+		//	Read console check data txt file
+		//
+		file.open(defaultPath + "CONSOLE_CHECK_DATA.txt");
+		if (file.fail())
+		{
+			file.clear();
+			file.close();
+			*this << con::error << con::func << "CONSOLE_CHECK_DATA open() - failed" << con::endl;
+			*this << con::error << con::func << "console is now disabled" << con::endl;
+			game.bConUsage = false;
+			DestroyWindow(consoleHND);
+		}
+
+		else
+		{
+			int num;
+			list<string>		tmp_list;
+			string				fileReadData_;
+			map<string, list<string>> tmp_map;
+			while (!file.eof())
+			{
+				file.get(input);
+				if (input == ':')
 				{
-					fileReadData_.clear();
-					while (true)
+					file >> num;
+					file >> fileReadData;
+					file.get();
+					for (int i = 0; i < num; i++)
 					{
-						file.get(input);
-						if (input == '\n' || file.eof())
-							break;
-						if (input == '\\')
+						fileReadData_.clear();
+						while (true)
 						{
 							file.get(input);
-							if (input == '\n')
+							if (input == '\n' || file.eof())
 								break;
-							if (input == 'n')
-								fileReadData_ += '\n';
-							else
+							if (input == '\\')
 							{
-								fileReadData_ += '\\';
-								fileReadData_ += input;
+								file.get(input);
+								if (input == '\n')
+									break;
+								if (input == 'n')
+									fileReadData_ += '\n';
+								else
+								{
+									fileReadData_ += '\\';
+									fileReadData_ += input;
+								}
 							}
+							else
+								fileReadData_ += input;
 						}
-						else
-							fileReadData_ += input;
+						tmp_list.push_back(fileReadData_);
 					}
-					tmp_list.push_back(fileReadData_);
+					checkData[fileReadData] = tmp_list;
+					tmp_list.clear();
 				}
-				checkData[fileReadData] = tmp_list;
-				tmp_list.clear();
 			}
+			file.clear();
+			file.close();
+			*this << con::info << con::func << "check data load - succeed" << con::endl;
+			history.push_front(" ");
+			*this << con::info << con::func << "console history ready" << con::endl;
+
+			hisptr = history.begin();
+			*this << con::info << con::func << "End init" << con::endl;
+
 		}
-		file.clear();
-		file.close();
-		*this << con::info << con::func << "check data load - succeed" << con::endl;
-		history.push_front(" ");
-		*this << con::info << con::func << "console history ready" << con::endl;
-
-		hisptr = history.begin();
-		*this << con::info << con::func << "End init" << con::endl;
-
 	}
 	RestoreFunction();
 }
