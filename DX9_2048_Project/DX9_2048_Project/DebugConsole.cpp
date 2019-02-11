@@ -36,7 +36,7 @@ bool CtrlHandler(DWORD fdwCtrlType)
 	case CTRL_C_EVENT:
 		return FALSE;
 	case CTRL_CLOSE_EVENT:
-		game.bRunGame = false;
+		game.bLoseGame = false;
 		Sleep(1000 * 1000);
 		return FALSE;
 
@@ -130,7 +130,7 @@ void DebugConsole::Input()
 				hisptr = history.begin();
 				userinput.clear();
 				Check();
-				if (game.bRunGame == true)
+				if (game.bLoseGame == true)
 					cout << ">> ";
 			}
 		}

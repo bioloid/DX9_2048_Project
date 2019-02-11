@@ -15,8 +15,7 @@ int _top, int _bottom, int _right, int _left) // 450 -450 800 -800
 //	std::cout << _top << " " << _bottom << " " << _right << " " << _left << std::endl;
 //	std::cout << worldMatrix._41 << " " << worldMatrix._42 << std::endl;
 //	std::cout << "texture : " << game.texture[textureName] << std::endl;
-
-
+	score = atoi(_filename.c_str());
 
 
 	Object::VertexXYZTEX* data_;
@@ -47,6 +46,11 @@ void Object::Initialize(std::string _filename, RECT& _position)
 	Initialize(_filename, _position.top, _position.bottom, _position.right, _position.left);
 }
 
+unsigned int Object::GetScore()
+{
+	return score;
+}
+
 void Object::Release()
 {
 	VB->Release();
@@ -65,6 +69,12 @@ void Object::Draw(LPD3DXEFFECT& shader)
 
 }
 
+void Object::ChangeTexture(std::string _filename)
+{
+	textureName = _filename;
+	score = atoi(_filename.c_str());
+}
+
 RECT Object::GetPosition()
 {
 	RECT Output;
@@ -79,6 +89,11 @@ void Object::Move(int _top, int _bottom, int _right, int _left)
 {
 	worldMatrix._41 = (_right + _left) / 2.0f;
 	worldMatrix._42 = (_top + _bottom) / 2.0f;
+}
+
+void Object::Move(RECT & _position)
+{
+	Move(_position.top, _position.bottom, _position.right, _position.left);
 }
 
 Object::Object()

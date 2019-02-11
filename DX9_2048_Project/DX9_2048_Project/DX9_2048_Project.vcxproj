@@ -50,6 +50,7 @@
     <Text Include="ConsoleData\CONSOLE_TAB_DATA.txt" />
     <Text Include="v0.0.txt" />
     <Text Include="v0.1.txt" />
+    <Text Include="v0.2.txt" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="MainShader.fx">

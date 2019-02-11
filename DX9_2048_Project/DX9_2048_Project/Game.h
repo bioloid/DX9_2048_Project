@@ -14,11 +14,16 @@
 
 #define MSGPRINTMAXSIZE 128
 
+#define UP 1
+#define DOWN 2
+#define RIGHT 3
+#define LEFT 4
+
 //	C++ Includes
 //
 #include <map>
 #include <string>
-
+#include <vector>
 //	DirectX Includes
 //
 #include <d3d9.h>
@@ -49,8 +54,10 @@ private:
 	Timer			mainTimer;
 	FPS				avgFPS;
 	Mouse			mouse;
-	Object			testObject;
-	Object			testTile[4][4];
+	Object			mainScreen;
+	Object			newGameButton;
+	std::vector<Object> tile;
+//	Object			testTile[4][4];
 //	DirectX
 //
 	IDirect3DDevice9*	device = NULL;
@@ -65,12 +72,15 @@ private:
 	char				str[MSGPRINTMAXSIZE];
 	RECT				FontBox;
 
-	unsigned int		boardData[4][4];
+	Object*				boardData[4][4];
+	unsigned int		score;
 
 public:
-	bool				bRunGame = true;
+	bool				bLoseGame = false;
+	bool				bWinGame = false;
+	bool				bEndGame = true;
 	bool				bConUsage = CONSOLEUSE;
-
+	
 
 public:
 	void Initialize
@@ -90,13 +100,15 @@ private:
 	void ShaderLoad(std::string _name, LPD3DXEFFECT& _shader);
 	void TextureLoad(std::string _filename, std::string _filepath);
 
-//	TODO Functions
-	void MoveTile(unsigned int _input);
-	bool GameOver();
-	void SameTile();
 	void NewTile();
-	void GetScore();
 	void NewGame();
+	void DrawScore();
+	void DrawEndMsg();
+	void MoveTile(unsigned int _input);
+	bool SameTile(int _x1, int _y1, int _x2, int _y2);
+
+//	TODO Functions
+	bool GameOver();
 
 public:
 	Game();
@@ -105,11 +117,11 @@ public:
 	friend void DebugConsole::Initialize(int _screenX, int _screenY);
 	friend void CPU::Initialize();
 	friend void Ram::Initialize();
-	friend void Keyboard::Initialize();
 	friend void Timer::Initialize();
 	friend void FPS::Initialize(bool _mode);
-	friend void Mouse::Initialize();
+	friend class Mouse;
 	friend class Object;
+	friend class Keyboard;
 };
 
 #endif

@@ -10,15 +10,18 @@ private:
 	IDirect3DVertexBuffer9* VB;
 	D3DXMATRIXA16 worldMatrix;
 	int sizeX, sizeY;
-
+	unsigned int score;
 public:
 	void Initialize(std::string _filename, int _top, int _bottom, int _right, int _left);
 	void Initialize(std::string _filename, RECT& _position);
-
+	unsigned int GetScore();
 	void Release();
 	void Draw(LPD3DXEFFECT& shader);
+	void ChangeTexture(std::string _filename);
 	RECT GetPosition();
 	void Move(int _top, int _bottom, int _right, int _left);
+	void Move(RECT& _position);
+	//	Object(Object& _newObject);
 	Object();
 	~Object();
 };

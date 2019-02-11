@@ -25,6 +25,21 @@ void Keyboard::KeyDown(WPARAM _key)
 {
 	if (_key < MAXKEYCOUNT)
 		keyboard[_key] = true;
+	if (_key == VK_UP)
+		game.MoveTile(UP);
+	else if (_key == VK_DOWN)
+		game.MoveTile(DOWN);
+	else if (_key == VK_RIGHT)
+		game.MoveTile(RIGHT);
+	else if (_key == VK_LEFT)
+		game.MoveTile(LEFT);
+	else
+	{
+		if (_key != VK_ESCAPE)
+			game.NewTile();
+		else
+			game.EndGame();
+	}
 }
 
 void Keyboard::KeyUp(WPARAM _key)
@@ -35,8 +50,6 @@ void Keyboard::KeyUp(WPARAM _key)
 
 void Keyboard::KeyEvent()
 {
-	if (keyboard[VK_ESCAPE] == true)
-		game.EndGame();
 }
 
 Keyboard::Keyboard()

@@ -1,0 +1,17 @@
+UpdateLog v 0.2.0 - from bioloid
+
+- Variables
+	- bWinGame																   [3][0] [3][1] [3][2] [3][3]
+	- bLoseGame																   [2][0] [2][1] [2][2] [2][3]
+	- bEndGame -> Game can be exited only by VK_ESCAPE keyboard input		   [1][0] [1][1] [1][2] [1][3]
+	- boardData[4][4] -> Now contain Object pointer							-> [0][0] [0][1] [0][2] [0][3]
+
+- Functions
+	- MoveTile -> Now Render() is called after MoveTile function
+	- GameOver -> At the end of MoveTile() GameOver Function is called if Game is win or lose call DrawEndMsg()
+	- SameTile -> check whether two tile's score is same or not, if score is same then change one of the tile's score * 2 tile and delete other one
+	- DrawScore -> Draw score on the appropriate position with center aligned.
+	- NewGame -> Reset the game
+
+- TODO
+	- MoveTile() Effect

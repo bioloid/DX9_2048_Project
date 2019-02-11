@@ -1,5 +1,6 @@
 #include "Mouse.h"
 #include "Game.h"
+#include <iostream>
 #pragma warning (disable:4715)
 Mouse::Mouse()
 {
@@ -37,8 +38,16 @@ void Mouse::MouseDown(WORD data, LPARAM lParam)
 	}
 	else if (data == MOUSE_LEFT) {
 		L = true;
+//		std::cout << coor.x << " " << coor.y << std::endl;
+		if (coor.x >= 965 && coor.x <= 1134 && coor.y >= 118 && coor.y <= 165)
+		{ // button click
+			game.newGameButton.ChangeTexture("NewGameOff");
+			game.Render();
+		}
 		return;
 	}
+
+	
 }
 void Mouse::MouseUp(WORD data, LPARAM lParam)
 {
@@ -50,6 +59,11 @@ void Mouse::MouseUp(WORD data, LPARAM lParam)
 	}
 	else if (data == MOUSE_LEFT) {
 		L = false;
+		if (coor.x >= 965 && coor.x <= 1134 && coor.y >= 118 && coor.y <= 165)
+		{ // button click
+			game.newGameButton.ChangeTexture("NewGameOn");
+			game.NewGame();
+		}
 		return;
 	}
 }
