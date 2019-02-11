@@ -204,4 +204,9 @@
       <Filter>Image</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="v0.3.txt">
+      <Filter>UpdateLog</Filter>
+    </None>
+  </ItemGroup>
 </Project>

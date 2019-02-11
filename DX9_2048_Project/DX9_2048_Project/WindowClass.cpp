@@ -33,7 +33,9 @@ void WindowClass::Initialize(int _screenX, int _screenY, HINSTANCE _hInstance, H
 	wc.lpszClassName = programName.c_str();
 	if (!RegisterClass(&wc))
 	{
-		game.debugConsole << con::error << "RegisterClass - error" << con::endl;
+		MessageBox(hwnd, "윈도우 클래스를 등록하지 못했습니다.", "오류", MB_OK);
+		MessageBox(hwnd, "게임을 종료합니다.", "오류", MB_OK);
+		game.EndGame();
 	}
 
 	hwnd = CreateWindow
@@ -41,7 +43,9 @@ void WindowClass::Initialize(int _screenX, int _screenY, HINSTANCE _hInstance, H
 		winSize.right, winSize.bottom, 0, 0, hInstance, 0);
 	if (!hwnd)
 	{
-		game.debugConsole << con::error << "CreateWindow - error" << con::endl;
+		MessageBox(hwnd, "윈도우 생성하지 못했습니다.", "오류", MB_OK);
+		MessageBox(hwnd, "게임을 종료합니다.", "오류", MB_OK);
+		game.EndGame();
 	}
 
 	MoveWindow(hwnd, 0, 0, winSize.right, winSize.bottom, TRUE);
@@ -57,7 +61,7 @@ void WindowClass::Initialize(int _screenX, int _screenY, HINSTANCE _hInstance, H
 void WindowClass::Release()
 {
 	ShowWindow(hwnd, SW_SHOWMINIMIZED);
-
+	PostQuitMessage(0);
 	while (EndWaitTime > 0)
 	{
 		Sleep(1000);

@@ -77,6 +77,9 @@
     <Image Include="Data\Image\8.jpg" />
     <Image Include="Data\Image\main_screen.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="v0.3.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{0EECF8A3-96EA-4B72-BDBB-AB3516D8647F}</ProjectGuid>

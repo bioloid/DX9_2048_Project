@@ -1,0 +1,10 @@
+UpdateLog v0.3.0 - from bioloid
+- Error handling routine
+	- Now print error msgBox and call EndGame()
+- GameOver()
+	- Now check whether game is end or not
+
+- TODO
+	- MoveTile effect (mw)
+	- Check bugs
+	- End project

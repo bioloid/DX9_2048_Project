@@ -106,8 +106,6 @@ private:
 	void DrawEndMsg();
 	void MoveTile(unsigned int _input);
 	bool SameTile(int _x1, int _y1, int _x2, int _y2);
-
-//	TODO Functions
 	bool GameOver();
 
 public:

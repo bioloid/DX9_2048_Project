@@ -48,11 +48,9 @@ void Game::Render()
 	device->Present(0, 0, 0, 0);
 }
 
-
 void Game::Initialize
 (int _screenX, int _screenY, HINSTANCE _hInstance, HINSTANCE _prevInstance, LPSTR _cmdLine, int _showCmd)
 {
-
 	debugConsole.SetFunction("Game::Initialize");
 	debugConsole.Initialize(CONSOLESIZE_X, CONSOLESIZE_Y);
 	mouse.Initialize();
@@ -139,30 +137,6 @@ void Game::Initialize
 
 	mainScreen.Initialize("main_screen", WINDOWSIZE_Y / 2, -WINDOWSIZE_Y / 2, WINDOWSIZE_X / 2, -WINDOWSIZE_X / 2);
 	newGameButton.Initialize("NewGameOn", 326, 273, 347, 174);
-	// 988 54 1132 94
-	// 188 396 332 356 
-	// 174  260  347
-
-
-//	testTile[0][0].Initialize("2", tilePosition[0][0]);
-//	testTile[1][0].Initialize("4", tilePosition[1][0]);
-//	testTile[2][0].Initialize("8", tilePosition[2][0]);
-//	testTile[3][0].Initialize("16", tilePosition[3][0]);
-//
-//	testTile[0][1].Initialize("32", tilePosition[0][1]);
-//	testTile[1][1].Initialize("64", tilePosition[1][1]);
-//	testTile[2][1].Initialize("128", tilePosition[2][1]);
-//	testTile[3][1].Initialize("256", tilePosition[3][1]);
-//
-//	testTile[0][2].Initialize("512", tilePosition[0][2]);
-//	testTile[1][2].Initialize("1024", tilePosition[1][2]);
-//	testTile[2][2].Initialize("2048", tilePosition[2][2]);
-//	testTile[3][2].Initialize("2", tilePosition[3][2]);
-//
-//	testTile[0][3].Initialize("2", tilePosition[0][3]);
-//	testTile[1][3].Initialize("4", tilePosition[1][3]);
-//	testTile[2][3].Initialize("8", tilePosition[2][3]);
-//	testTile[3][3].Initialize("16", tilePosition[3][3]);
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
@@ -186,8 +160,9 @@ void Game::D3DXInitialize()
 	d3d9 = Direct3DCreate9(D3D_SDK_VERSION);
 	if (!d3d9)
 	{
-		debugConsole << con::error << con::func << "Direct3DCreate9() - failed" << con::endl;
-		debugConsole << con::error << con::func << "critical error is detected" << con::endl;
+		MessageBox(window.hwnd, "d3d9 초기화 오류", "오류", MB_OK);
+		MessageBox(window.hwnd, "게임을 종료합니다.", "오류", MB_OK);
+		game.EndGame();
 		return;
 	}
 
@@ -227,8 +202,9 @@ void Game::D3DXInitialize()
 		if (FAILED(d3d9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, window.hwnd, vp, &d3dpp, &device)))
 		{
 			d3d9->Release();
-			debugConsole << con::error << con::func << "CreateDevice() - D3DFMT_D16 failed" << con::endl;
-			debugConsole << con::error << con::func << "critical error is detected" << con::endl;
+			MessageBox(window.hwnd, "장치 생성 오류", "오류", MB_OK);
+			MessageBox(window.hwnd, "게임을 종료합니다.", "오류", MB_OK);
+			game.EndGame();
 		}
 	}
 	d3d9->Release();
@@ -402,10 +378,11 @@ void Game::ShaderLoad(std::string _name, LPD3DXEFFECT & _shader)
 	D3DXCreateEffectFromFile(device, _name.c_str(), NULL, NULL, shaderflags, NULL, &_shader, &error);
 	if (!_shader && error)
 	{
+		_shader = NULL;
 		char *ack = (char*)error->GetBufferPointer();
-		debugConsole << ack << con::endl;
-		getchar();
-		debugConsole << con::error << con::func << "D3DXCreateEffectFromFile() error - " << _name << con::endl;
+		MessageBox(window.hwnd, ack, "오류", MB_OK);
+		MessageBox(window.hwnd, "게임을 종료합니다.", "오류", MB_OK);
+		game.EndGame();
 		//error handling
 	}
 	debugConsole.RestoreFunction();
@@ -418,8 +395,9 @@ void Game::TextureLoad(std::string _filename, std::string _filepath)
 	if (FAILED(D3DXCreateTextureFromFile
 	(device, _filepath.c_str(), &texture[_filename])))
 	{
-		debugConsole << con::error << con::func << "D3DXCreateTextureFromFile() error" << con::endl;
-		debugConsole << con::error << con::func << "path : " << _filepath << con::endl;
+		texture[_filename] = NULL;
+		MessageBox(window.hwnd, "지정된 텍스쳐 파일을 불러오는데 실패했습니다.", "오류", MB_OK);
+		MessageBox(window.hwnd, "게임을 종료합니다.", "오류", MB_OK);
 		EndGame();
 	}
 	debugConsole.RestoreFunction();
@@ -631,11 +609,16 @@ void Game::MoveTile(unsigned int _input)
 
 	Render();
 	GameOver();
-	std::cout << "gameover out\n";
+//	std::cout << "gameover out\n";
+//	std::cout << checkMoved << " " << bWinGame << " " << bLoseGame << std::endl;
 	if (checkMoved)
 	{
 		Sleep(100);
 		NewTile();
+		Render();
+	}
+	if (checkMoved == false && (bWinGame || bLoseGame))
+	{
 		Render();
 	}
 	
@@ -658,7 +641,7 @@ void Game::MoveTile(unsigned int _input)
 
 bool Game::GameOver()
 {
-	std::cout << "gameover func in";
+//	std::cout << "gameover func in";
 	for (int i = 0; i < 4; i++) // win game
 	{
 		for (int j = 0; j < 4; j++)
@@ -684,7 +667,7 @@ bool Game::GameOver()
 				count++;
 		}
 	}
-	std::cout << " count : " << count << '\n';
+//	std::cout << " count : " << count << '\n';
 	if (count == 16)
 	{
 		for (int i = 0; i < 3; i++)
@@ -694,7 +677,7 @@ bool Game::GameOver()
 				if (boardData[i][j]->GetScore() == boardData[i + 1][j]->GetScore())
 				{
 					something_to_merge = true;
-					std::cout << i << " " << j << " 1\n";
+//					std::cout << i << " " << j << " 1\n";
 					break;
 				}
 			}
@@ -708,7 +691,7 @@ bool Game::GameOver()
 				if (boardData[i][j]->GetScore() == boardData[i][j + 1]->GetScore())
 				{
 					something_to_merge = true;
-					std::cout << i << " " << j << " 2\n";
+//					std::cout << i << " " << j << " 2\n";
 					break;
 				}
 			}
@@ -717,6 +700,7 @@ bool Game::GameOver()
 		}
 		if (!something_to_merge)
 		{
+//			std::cout << "lose game!" << std::endl;
 			bLoseGame = true;
 			return true;
 		}

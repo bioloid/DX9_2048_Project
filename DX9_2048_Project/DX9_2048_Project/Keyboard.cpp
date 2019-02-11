@@ -35,9 +35,7 @@ void Keyboard::KeyDown(WPARAM _key)
 		game.MoveTile(LEFT);
 	else
 	{
-		if (_key != VK_ESCAPE)
-			game.NewTile();
-		else
+		if (_key == VK_ESCAPE)
 			game.EndGame();
 	}
 }
