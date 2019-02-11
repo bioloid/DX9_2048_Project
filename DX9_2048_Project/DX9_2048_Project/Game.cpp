@@ -36,9 +36,12 @@ void Game::Render()
 	}
 	mainShader->End();
 
-	DrawScore();
+#ifdef _DEBUG
 	DrawInfo();
+#endif
 	DrawEndMsg();
+	DrawScore();
+
 	device->EndScene();
 	device->Present(0, 0, 0, 0);
 }

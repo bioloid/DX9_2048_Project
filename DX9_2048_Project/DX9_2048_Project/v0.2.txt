@@ -1,3 +1,7 @@
+UpdateLog v 0.2.1 - from bioloid
+- Change Release visual studio project options
+	- Now debugconsole and DrawInfo function is deactivated in Release build mode
+
 UpdateLog v 0.2.0 - from bioloid
 
 - Variables
