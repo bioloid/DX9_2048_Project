@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "Defines.h"
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 #pragma warning(disable:4477)
 #pragma warning(disable:4244)
 #pragma warning(disable:4996)
@@ -50,6 +52,7 @@ void Game::Render()
 void Game::Initialize
 (int _screenX, int _screenY, HINSTANCE _hInstance, HINSTANCE _prevInstance, LPSTR _cmdLine, int _showCmd)
 {
+
 	debugConsole.SetFunction("Game::Initialize");
 	debugConsole.Initialize(CONSOLESIZE_X, CONSOLESIZE_Y);
 	mouse.Initialize();
@@ -60,6 +63,7 @@ void Game::Initialize
 	window.Initialize(_screenX, _screenY, _hInstance, _prevInstance, _cmdLine, _showCmd);
 	D3DXInitialize();
 
+	srand((unsigned)time(NULL));
 
 
 	{
@@ -691,8 +695,8 @@ bool Game::SameTile(int _x1, int _y1, int _x2, int _y2)
 
 void Game::NewTile()
 {
-	srand(avgFPS.GetCount());
 	int tmpRandNum = rand() % 16;
+	std::cout << tmpRandNum << std::endl;
 	bool checkFull = false;
 	while (checkFull == false)
 	{

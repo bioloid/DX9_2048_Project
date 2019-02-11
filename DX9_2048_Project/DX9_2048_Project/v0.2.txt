@@ -1,3 +1,7 @@
+UpdateLog v0.2.3 - from bioloid
+- NewTile
+	- Now get right random numbers
+
 UpdateLog v0.2.2 - from bioloid
 - DebugConsole
 	- Initialize()
